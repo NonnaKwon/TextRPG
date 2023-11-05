@@ -8,6 +8,9 @@ using namespace std;
 class Screen
 {
 private:
+	const static int MAP_WIDTH = 80;
+	const static int MAP_HEIGHT = 20;
+	static char inGameMap[MAP_HEIGHT][MAP_WIDTH];
 	static void basicUpperBar();
 	static void basicUndderBar();
 public:
@@ -20,7 +23,6 @@ public:
 	static void inGameScreen();
 	static void battleScreen();
 	static void warningMessage(string msg);
-	//void setGamaManager(GameManager *inputManager) { gm = inputManager; }
 };
 
 #endif
