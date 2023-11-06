@@ -5,6 +5,9 @@
 #include <Windows.h>
 #include <string>
 
+int Screen::x = 0;
+int Screen::y = 0;
+
 char Screen::inGameMap[MAP_HEIGHT][MAP_WIDTH] = {
 	{"000000011111111111111111111111111111111111111111111111111111111111"},
 	{"000000010000000000000000100000000000000001000000000000000000000001"},
@@ -101,13 +104,50 @@ void Screen::basicUndderBar()
 	cout << "============================================================================" << endl;
 	cout << "HP : " << player->getHP() << "\t|| 공격력 : "<< player->getRole().getPower()<<" \t|| 민첩성 : "<< player->getRole().getSpeed() << endl;
 	cout << "============================================================================" << endl;
-	cout << "이동 : A W S D // 상호작용 : X // 종료 : Q" << endl;
+	cout << "이동 : A W S D // 상호작용 : M // 종료 : Q" << endl;
 }
 
-void Screen::inGameScreen()
+void Screen::inGameScreen(int state)
 {
 	system("cls");
 	basicUpperBar();
+	switch (state)
+	{
+	case LEFT:
+		moveMap(0, -1);
+		break;
+	case RIGHT:
+		moveMap(0, 1);
+		break;
+	case UP:
+		moveMap(-1, 0);
+		break;
+	case DOWN:
+		moveMap(1, 0);
+		break;
+	case SUBMIT:
+		break;
+	default:
+		break;
+	}
+	drawMap();
+	basicUndderBar();
+}
+
+
+void Screen::moveMap(int moveX, int moveY)
+{
+	if (x + moveX < 0 || MAP_HEIGHT <= x + moveX || y + moveY < 7 || MAP_WIDTH <= y + moveY)
+		return;
+	else if (inGameMap[x + moveX][y + moveY] != '0')
+		return;
+
+	inGameMap[x][y] = '0';
+	inGameMap[x + moveX][y + moveY] = 'p';
+}
+
+void Screen::drawMap()
+{
 	for (int i = 0; i < MAP_HEIGHT; i++)
 	{
 		for (int j = 0; j < MAP_WIDTH; j++)
@@ -118,7 +158,11 @@ void Screen::inGameScreen()
 			else if (tile == '1')
 				cout << "#";
 			else if (tile == 'p')//플레이어
+			{
 				cout << "@";
+				x = i;
+				y = j;
+			}
 			else if (tile == 'm')//몬스터
 				cout << "&";
 			else if (tile == 'i')//아이템
@@ -134,7 +178,6 @@ void Screen::inGameScreen()
 		}
 		cout << endl;
 	}
-	basicUndderBar();
 }
 
 void Screen::battleScreen()

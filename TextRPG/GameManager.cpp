@@ -10,25 +10,10 @@ void GameManager::gameLoop()
 	while (!isEnd)
 	{
 		int key = keyControl();
-		switch (key)
-		{
-			case LEFT :
-				break;
-			case RIGHT:
-				break;
-			case UP:
-				break;
-			case DOWN:
-				break;
-			case END:
-				isEnd = true;
-				break;
-			case SUBMIT:
-				break;
-		default:
-			break;
-		}
-
+		if (key == END)
+			isEnd = true;
+		else
+			Screen::inGameScreen(key);
 	}
 }
 
@@ -56,14 +41,14 @@ void GameManager::SetPlayer()
 
 void GameManager::InGame()
 {
-	Screen::inGameScreen();
+	Screen::inGameScreen(-1);
 	gameLoop();
 }
 
 
 int GameManager::keyControl()
 {
-	char input = getch();
+	char input = _getch();
 	switch (input)
 	{
 	case 'a' : case 'A':
@@ -76,7 +61,7 @@ int GameManager::keyControl()
 		return RIGHT;
 	case 'q' : case 'Q':
 		return END;
-	case 'x': case 'X':
+	case 'm': case 'M':
 		return SUBMIT;
 	default:
 		break;
