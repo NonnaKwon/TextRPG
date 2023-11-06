@@ -31,6 +31,29 @@ char Screen::inGameMap[MAP_HEIGHT][MAP_WIDTH] = {
 	{"000000011111111111111111111111111111111111111111111111111111111111"}
 };
 
+char Screen::battleMap[MAP_HEIGHT][MAP_WIDTH] = {
+	{"000000011111111111111111111111111111111111111111111111111111111111"},
+	{"000000010000000000000000000000000000000000000000000000000000000001"},
+	{"00000001000000000000000000000000000000000000000000mmmmmm0000000001"},
+	{"00000001000000000000000000000000000000000000000000mmmmmm0000000001"},
+	{"00000001000000000000000000000000000000000000mmmmmmmmmmmmmmmmmm0001"},
+	{"00000001000000000000000000000000000000000000mmmmmmmmmmmmmmmmmm0001"},
+	{"00000001000000000000000000000000000000000000mmmmmmmmmmmmmmmmmm0001"},
+	{"00000001000000000000000000000000000000000000mmmmmmmmmmmmmmmmmm0001"},
+	{"0000000100000000000000000000000000000000000000000mmm00mmm000000001"},
+	{"0000000100000000000000000000000000000000000000000mmm00mmm000000001"},
+	{"0000000100000000000000000000000000000000000000000mmm00mmm000000001"},
+	{"000000010000000000000000000000000000000000000000000000000000000001"},
+	{"0000000100000bbbbbbbbbbbb00000000000000000000000000000000000000001"},
+	{"0000000100000bbbbbbbbbbbb00000000000000000000000000000000000000001"},
+	{"0000000100000bbbbbbbbbbbb00000000000000000000000000000000000000001"},
+	{"0000000100000bbbbbbbbbbbb00000000000000000000000000000000000000001"},
+	{"0000000100000bbbbbbbbbbbb00000000000000000000000000000000000000001"},
+	{"0000000100000bbbbbbbbbbbb00000000000000000000000000000000000000001"},
+	{"000000010000000000000000000000000000000000000000000000000000000001"},
+	{"000000011111111111111111111111111111111111111111111111111111111111"}
+};
+
 int Screen::titleScreen()
 {
 	system("cls");
@@ -126,6 +149,12 @@ void Screen::inGameScreen(int state)
 		moveMap(1, 0);
 		break;
 	case SUBMIT:
+		if (findAround(1, 0) == 'i' || findAround(0, 1) == 'i' || findAround(-1, 0) == 'i' || findAround(0, -1) == 'i')
+			cout << "아이템 상호작용";
+		else if (findAround(1, 0) == 'm' || findAround(0, 1) == 'm' || findAround(-1, 0) == 'm' || findAround(0, -1) == 'm')
+			battleScreen();
+		else if (findAround(1, 0) == 'b' || findAround(0, 1) == 'b' || findAround(-1, 0) == 'b' || findAround(0, -1) == 'b')
+			battleScreen();
 		break;
 	default:
 		break;
@@ -148,6 +177,12 @@ void Screen::moveMap(int moveX, int moveY)
 
 void Screen::drawMap()
 {
+	char (* map)[MAP_WIDTH];
+	if (Managers::Game->GameState == INGAME)
+		map = inGameMap;
+	else if(Managers::Game->GameState == BATTLE)
+		map = battleMap;
+
 	for (int i = 0; i < MAP_HEIGHT; i++)
 	{
 		for (int j = 0; j < MAP_WIDTH; j++)
@@ -178,6 +213,18 @@ void Screen::drawMap()
 		}
 		cout << endl;
 	}
+}
+
+char Screen::findAround(int findX,int findY)
+{
+	char(*map)[MAP_WIDTH] = nullptr;
+	if (Managers::Game->GameState == INGAME)
+		map = inGameMap;
+	else if (Managers::Game->GameState == BATTLE)
+		map = battleMap;
+	else
+		map = inGameMap;
+	return map[x + findX][y + findY];
 }
 
 void Screen::battleScreen()

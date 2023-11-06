@@ -13,10 +13,13 @@ private:
 	const static int MAP_WIDTH = 80;
 	const static int MAP_HEIGHT = 20;
 	static char inGameMap[MAP_HEIGHT][MAP_WIDTH];
+	static char battleMap[MAP_HEIGHT][MAP_WIDTH];
 	static void basicUpperBar();
 	static void basicUndderBar();
 	static void drawMap();
 	static void moveMap(int moveX, int moveY);
+	static char findAround(int,int);
+
 public:
 	Screen();
 	~Screen();

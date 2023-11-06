@@ -42,6 +42,7 @@ void GameManager::SetPlayer()
 void GameManager::InGame()
 {
 	Screen::inGameScreen(-1);
+	GameState = INGAME;
 	gameLoop();
 }
 

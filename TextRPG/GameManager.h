@@ -8,6 +8,9 @@
 #define SUBMIT 4
 #define END 5
 
+#define INGAME 10
+#define BATTLE 11
+
 #include <iostream>
 #include "Player.h"
 using namespace std;
@@ -18,6 +21,7 @@ private:
 	Player player;
 	int keyControl();
 public:
+	int GameState;
 	void Play();
 	void gameLoop();
 	void SetPlayer();
